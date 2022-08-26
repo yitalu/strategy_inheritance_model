@@ -1,4 +1,5 @@
 # IMPORT ----
+from math import exp
 import numpy as np
 
 
@@ -48,10 +49,14 @@ def realize_fertility(fertility_allocation, max_num_offspring, survival_birth):
 
     reproduction = np.zeros((len(fertility_allocation), 3))
     reproduction[:, 0] = fertility_allocation
-    # print("fertility_allocation", reproduction[:, 0])
+    print("fertility_allocation", reproduction[:, 0])
     
     # death rate (concave function)
-    reproduction[:, 1] = 1 - survival_birth ** reproduction[:, 0]
+    # reproduction[:, 1] = 1 - survival_birth ** reproduction[:, 0]
+
+    # survival rate
+    reproduction[:, 1] = np.exp(0.8 * (- reproduction[:, 0] / max_num_offspring))
+    print("survival rates", reproduction[:, 1])
     
     # death rate (linear function)
     # reproduction[:, 1] = (1 - survival_birth) + survival_birth * reproduction[:, 0] / max_num_offspring
@@ -59,8 +64,8 @@ def realize_fertility(fertility_allocation, max_num_offspring, survival_birth):
 
     # realized fertility
     for i in range(len(fertility_allocation)):
-        reproduction[i, 2] = np.random.binomial(reproduction[i, 0].astype(int), (1 - reproduction[i, 1]), 1)
-    # print("fertility_realized", reproduction[:, 2])
+        reproduction[i, 2] = np.random.binomial(reproduction[i, 0].astype(int), reproduction[i, 1], 1)
+    print("fertility_realized", reproduction[:, 2])
 
     return reproduction[:, 2]
 
