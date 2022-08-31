@@ -4,7 +4,7 @@ rm(list = ls())
 
 # parameters
 wealth <- seq(0, 14)
-threshold_base <- 0
+threshold_base <- 1
 
 # a logarithmic function
 threshold <- threshold_base + log(wealth + 1)

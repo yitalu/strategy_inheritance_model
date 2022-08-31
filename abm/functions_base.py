@@ -4,7 +4,7 @@ import numpy as np
 
 
 def initialize_population(population, num_class):
-    """generate a population with distributions of class/wealth and initial random strategies"""
+    """generate wealth and strategy distributions in the population"""
 
     # agents get random classes/wealth
     population[:, 2] = np.random.randint(0, num_class, len(population))
@@ -12,23 +12,18 @@ def initialize_population(population, num_class):
     # agents' wealth equally distributed
     # population[:, 2] = np.repeat(np.arange(0, num_class, 1), 11)
 
-    # print("population wealth", population[:, 2])
-    return population
-
-
-def choose_random_strategy(population):
-    """agents (only ancestors) choose a random fertility strategy"""
-    
     # agents choose a random proportion of wealth for fertility
     population[:, 3] = np.random.uniform(0, 1, len(population)).astype(float)
 
     # agents' strategies equally distributed
     # population[:, 3] = np.repeat([np.linspace(0, 1, 11)], 15, axis=0).flatten()
 
+    # print("population wealth", population[:, 2])
     return population
 
 
-def allocate_wealth(population, max_num_offspring, survival_birth):
+
+def allocate_wealth(population, max_num_offspring, survival_birth, cost_class):
     """allocate wealth between fertility investment and bequests (based on agent strategies), and get real fertility"""
 
     # fertility allocation
@@ -39,35 +34,49 @@ def allocate_wealth(population, max_num_offspring, survival_birth):
     population[:, 5] = population[:, 2] - population[:, 4]
 
     # fertility
-    population[:, 6] = realize_fertility(population[:, 4], max_num_offspring, survival_birth)
+    # population[:, 6] = realize_fertility(population[:, 4], max_num_offspring, survival_birth, cost_class)
 
     return population
 
 
-def realize_fertility(fertility_allocation, max_num_offspring, survival_birth):
-    """density dependent death"""
+def give_birth(population, max_num_offspring, death_offspring, hazard_env, cost_class, cost_base):
+    """parents give birth"""
 
-    reproduction = np.zeros((len(fertility_allocation), 3))
-    reproduction[:, 0] = fertility_allocation
+    fertility_allocation = population[:, 4]
+    reproduction = np.zeros((len(population), 6))
+    # [0] fertility allocation; [1] parent class; [2] cost of reproducing/rearing; [3] fertility; [4] offspring survival rate; [5] survived offspring
+    print("len(population)", len(population))
+
+    # fertility allocation
+    reproduction[:, 0] = population[:, 4]
     print("fertility_allocation", reproduction[:, 0])
+
+    # class-dependent cost
+    if cost_class == 1:
+        # parent class
+        reproduction[:, 1] = population[:, 2]
+
+        # cost of rearing
+        reproduction[:, 2] = cost_base + np.log(reproduction[:, 1] + 1)
+
+    # fertility
+    reproduction[:, 3] = np.round(reproduction[:, 0] - reproduction[:, 2])
+    reproduction[:, 3] = np.clip(reproduction[:, 3], 0, max_num_offspring)
+
+    # some offspring dies
+    if death_offspring == 1:
+        reproduction[:, 4] = np.exp(- hazard_env * ( reproduction[:, 3] / max_num_offspring))
+        print("survival rates", reproduction[:, 4])
+
+        for i in range(len(fertility_allocation)):
+            reproduction[i, 5] = np.random.binomial(reproduction[i, 3].astype(int), reproduction[i, 4], 1)
+
+    elif death_offspring == 0:
+        reproduction[:, 5] = reproduction[:, 3]
     
-    # death rate (concave function)
-    # reproduction[:, 1] = 1 - survival_birth ** reproduction[:, 0]
-
-    # survival rate
-    reproduction[:, 1] = np.exp(0.8 * (- reproduction[:, 0] / max_num_offspring))
-    print("survival rates", reproduction[:, 1])
+    population[:, 6] = reproduction[:, 5]
     
-    # death rate (linear function)
-    # reproduction[:, 1] = (1 - survival_birth) + survival_birth * reproduction[:, 0] / max_num_offspring
-    # print("death_rate", reproduction[:, 1])
-
-    # realized fertility
-    for i in range(len(fertility_allocation)):
-        reproduction[i, 2] = np.random.binomial(reproduction[i, 0].astype(int), reproduction[i, 1], 1)
-    print("fertility_realized", reproduction[:, 2])
-
-    return reproduction[:, 2]
+    return population
 
 
 # def realize_fertility(fertility_allocation, max_num_offspring, survival_birth):
