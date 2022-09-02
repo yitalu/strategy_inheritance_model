@@ -5,7 +5,10 @@ library("rethinking")
 
 
 # Load Data ----
-d <- fread("./data/data.csv")
+d <- fread("./data/data_d0c0.csv")
+d <- fread("./data/data_d1c0.csv")
+d <- fread("./data/data_d0c1.csv")
+d <- fread("./data/data_d1c1.csv")
 colnames(d)[1] <- "inheritance"
 
 
