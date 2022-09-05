@@ -15,10 +15,10 @@ print('started at:', current_time)
 
 # PARAMETERS
 # Basic
-num_class = 15 # just for initial
+num_class = 9 # just for initial
 num_ancestor = 100
 # num_ancestor = num_class * 11
-num_generation = 8
+num_generation = 10
 max_offspring = 14
 mutation_rate = 0.005
 num_column = 10
@@ -137,17 +137,21 @@ for t in range(num_generation):
 column_name = 'inheritance, income, wealth, strategy, fertility investment, bequests, fertility, ancestor class, parent class, generation'
 
 if death_offspring == 0 and cost_class == 0:
-    np.savetxt('./data/data_d0c0_2.csv', data, delimiter=',', fmt='%.2f', header=column_name)
-    print(death_offspring, cost_class)
+    np.savetxt('./data/data_d0c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    print("death_offspring:", death_offspring)
+    print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
     np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
-    print(death_offspring, cost_class)
+    print("death_offspring:", death_offspring)
+    print("cost_class:", cost_class)
 elif death_offspring == 0 and cost_class == 1:
     np.savetxt('./data/data_d0c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
-    print(death_offspring, cost_class)
+    print("death_offspring:", death_offspring)
+    print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 1:
     np.savetxt('./data/data_d1c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
-    print(death_offspring, cost_class)
+    print("death_offspring:", death_offspring)
+    print("cost_class:", cost_class)
 
 print("population of ancestors", num_ancestor)
 print("population in last generation", len(offspring))
