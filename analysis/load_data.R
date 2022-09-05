@@ -8,6 +8,7 @@ library("rethinking")
 d0c0 <- fread("./data/data_d0c0.csv")
 d1c0 <- fread("./data/data_d1c0.csv")
 d0c1 <- fread("./data/data_d0c1.csv")
+# d0c1 <- fread("./data/data_d0c1 copy.csv")
 d1c1 <- fread("./data/data_d1c1.csv")
 
 colnames(d0c0)[1] <- "inheritance"
@@ -23,6 +24,12 @@ d <- d1c1
 g_max <- max(d$generation)
 w_max_initial <- max(d[generation == 0,]$wealth)
 w_max_final <- max(d$wealth)
+
+w <- d[generation == g_max, wealth]
+s <- d[generation == g_max, strategy]
+f <- d[generation == g_max, fertility]
+plot(s ~ w)
+plot(f ~ w)
 
 sum(d$wealth > 9)
 d[generation == g_max, .N]
@@ -40,11 +47,7 @@ dens(d[generation == g_max & wealth == w_max_initial, fertility])
 dens(d[generation == g_max & wealth == w_max_final, fertility])
 dens(d[generation == g_max, wealth])
 
-w <- d[generation == g_max, wealth]
-s <- d[generation == g_max, strategy]
-f <- d[generation == g_max, fertility]
-plot(f ~ w)
-plot(s ~ w)
+
 
 
 dens(d[generation == 0, wealth])
