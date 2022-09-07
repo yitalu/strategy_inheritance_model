@@ -48,6 +48,7 @@ plot(odd ~ fertility_allocation)
 # 6
 f <- seq(0, 14)
 s <- exp(0.5 * (-f/14))
+s <- exp(0 * (-f/14))
 plot(s ~ f)
 plot((s * f) ~ f)
 grid()

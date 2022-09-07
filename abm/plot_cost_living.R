@@ -4,10 +4,12 @@ rm(list = ls())
 
 # parameters
 wealth <- seq(0, 14)
-threshold_base <- 1
+threshold_base <- 0
 
 # a logarithmic function
 threshold <- threshold_base + log(wealth + 1)
+threshold <- threshold_base + log(0.2 * wealth + 1)
+threshold <- threshold_base + 0.5 * log(wealth + 1)
 
 # pdf(file = "./figures/class_dependent_living_cost.pdf")
 plot(threshold ~ wealth, type = "l", ylim = c(0, max(wealth)), ylab = "Living Cost", xlab = "Wealth", main = "Class-Dependent Cost of Living")

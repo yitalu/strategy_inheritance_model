@@ -18,7 +18,9 @@ print('started at:', current_time)
 num_class = 9 # just for initial
 num_ancestor = 100
 # num_ancestor = num_class * 11
-num_generation = 10
+num_generation = 50
+# indefinite number actually because of the limit_population
+limit_population = 1000000
 max_offspring = 14
 mutation_rate = 0.005
 num_column = 10
@@ -30,8 +32,8 @@ income_max = num_class
 cost_base = 0
 
 # Conditional (1 for true; 0 for false)
-death_offspring = 0
-cost_class = 0
+death_offspring = 1
+cost_class = 1
 
 
 
@@ -71,7 +73,7 @@ for t in range(num_generation):
     
 
     # break the loop when: 1) no fertility; 2) last gen
-    if fertility_total == 0:
+    if fertility_total == 0 or fertility_total > limit_population:
     # if fertility_total == 0 or t == num_generation - 1:
         print("broke the loop at generation", t)
         break
@@ -137,24 +139,28 @@ for t in range(num_generation):
 column_name = 'inheritance, income, wealth, strategy, fertility investment, bequests, fertility, ancestor class, parent class, generation'
 
 if death_offspring == 0 and cost_class == 0:
-    np.savetxt('./data/data_d0c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    # np.savetxt('./data/data_d0c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/data_d0c0_test.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
-    np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    # np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/data_d1c0_test.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 0 and cost_class == 1:
-    np.savetxt('./data/data_d0c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    # np.savetxt('./data/data_d0c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/data_d0c1_test.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 1:
-    np.savetxt('./data/data_d1c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    # np.savetxt('./data/data_d1c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/data_d1c1_test.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 
 print("population of ancestors", num_ancestor)
-print("population in last generation", len(offspring))
+print("parents in last generation", len(offspring))
 
 end_time = tm.time()
 current_time = tm.strftime("%Y/%m/%d %H:%M:%S", tm.localtime())
