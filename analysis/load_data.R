@@ -5,10 +5,10 @@ library("rethinking")
 
 
 # Load Data ----
-d0c0 <- fread("./data/data_d0c0_test.csv")
-d1c0 <- fread("./data/data_d1c0_test.csv")
-d0c1 <- fread("./data/data_d0c1_test.csv")
-d1c1 <- fread("./data/data_d1c1_test.csv")
+d0c0 <- fread("./data/data_d0c0.csv")
+d1c0 <- fread("./data/data_d1c0.csv")
+d0c1 <- fread("./data/data_d0c1.csv")
+d1c1 <- fread("./data/data_d1c1.csv")
 
 colnames(d0c0)[1] <- "inheritance"
 colnames(d1c0)[1] <- "inheritance"
@@ -22,16 +22,20 @@ d <- d1c1
 
 
 
+
+
 # Population Size in the Last Generation ----------------------------------
 g_max <- max(d$generation)
+d[generation == g_max & wealth > 9, .N]
 n_pop <- d[generation == g_max, .N]
 print(n_pop)
 
 
 # Richest Class in the Last Generation ------------------------------------
-w_max_initial <- max(d[generation == 0,]$wealth)
-w_max_final <- max(d[generation == g_max,]$wealth)
+w_max_initial <- max(d[generation == 0, ]$wealth)
+w_max_final <- max(d[generation == g_max, ]$wealth)
 print(w_max_final)
+sort(unique(d[generation == g_max & wealth > w_max_initial, ]$wealth))
 
 
 # Growth of Wealth Stratification -----------------------------------------
@@ -40,7 +44,7 @@ for (g in 0:max(d$generation)) {
   print(g)
   num_class[g+1] <- length(unique(d[generation == g, wealth]))
   # num_class[g+1] <- max(unique(d[generation == g, wealth]))
-  plot(num_class)
+  plot(num_class, pch = 20)
   Sys.sleep(0.1)
 }
 
@@ -77,10 +81,10 @@ for (g in 0:max(d$generation)) {
 
 
 # Fertility of Normal Classes ------------------------------------------------
-w <- d[generation == g_max & wealth >= 0 & wealth < w_max_initial, wealth]
-s <- d[generation == g_max & wealth >= 0 & wealth < w_max_initial, strategy]
-f <- d[generation == g_max & wealth >= 0 & wealth < w_max_initial, fertility]
-plot(s ~ w)
+w <- d[generation == g_max, wealth]
+s <- d[generation == g_max, strategy]
+f <- d[generation == g_max, fertility]
+plot(s ~ jitter(w))
 plot(jitter(f) ~ jitter(w))
 
 sum(d$wealth > 9)
