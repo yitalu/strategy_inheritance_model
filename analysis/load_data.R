@@ -6,7 +6,14 @@ library("rethinking")
 
 # Load Data ----
 d0c0 <- fread("./data/data_d0c0.csv")
+
 d1c0 <- fread("./data/data_d1c0.csv")
+
+d1c0 <- fread("./data/data_d1c0_h00.csv")
+d1c0 <- fread("./data/data_d1c0_h03.csv")
+d1c0 <- fread("./data/data_d1c0_h06.csv")
+d1c0 <- fread("./data/data_d1c0_h09.csv")
+
 d0c1 <- fread("./data/data_d0c1.csv")
 d1c1 <- fread("./data/data_d1c1.csv")
 

@@ -27,13 +27,13 @@ num_column = 10
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] ancestor's class; [8] parent's class; [9] generation
 
 # Environmental
-hazard_env = 0.5
+hazard_env = 0
 income_max = num_class
 cost_base = 0
 
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
-cost_class = 1
+cost_class = 0
 
 
 
@@ -143,7 +143,8 @@ if death_offspring == 0 and cost_class == 0:
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
-    np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    # np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/data_d1c0_h00.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 0 and cost_class == 1:
