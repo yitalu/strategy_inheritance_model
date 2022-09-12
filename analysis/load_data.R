@@ -134,3 +134,18 @@ d[generation == g_max & wealth == w, .(wealth, strategy, fertility)]$fertility
 
 hist(d[generation == g_max & wealth == w, .(wealth, strategy, fertility)]$strategy)
 hist(d[generation == g_max & wealth == w, .(wealth, strategy, fertility)]$fertility)
+
+
+
+# Long-Term Fitness -------------------------------------------------------
+g_max <- max(d$generation)
+dens(d[generation == g_max, `ancestor class`])
+table(d[generation == g_max, `ancestor class`])
+
+dens(d[generation == g_max & `ancestor class` == 9, strategy])
+
+
+dens(d[generation == g_max, `parent class`])
+table(d[generation == g_max, `parent class`])
+dens(d[generation == g_max & `parent class` == 8, strategy])
+dens(d[generation == g_max & `parent class` == 8, fertility])
