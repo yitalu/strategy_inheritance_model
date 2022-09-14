@@ -75,7 +75,8 @@ ggplot(data=diamonds, aes(x=price, group=cut, fill=cut)) +
 d_mod <- d[wealth > w_max_initial]
 
 ggplot(d_mod, aes(wealth, generation, group = generation)) + 
-  geom_density_ridges(fill = "lightblue", alpha=0.6, stat="binline", bins=30) +
+  # geom_density_ridges(fill = "lightblue", alpha=0.6, stat="binline", bins=30) +
+  geom_density_ridges(fill = "lightblue", alpha=0.6) +
   theme_ridges() + 
   theme(legend.position = "none") + 
   labs(title = 'Emergence of the Super Rich')
@@ -88,9 +89,19 @@ dens(d[generation == g_max & wealth > w_max_initial, wealth])
 
 
 
+# proportion in classes
+g_max <- max(d$generation)
+d[generation == g_max & wealth >= 0 & wealth <= 2, .N] / d[generation == g_max, .N]
+d[generation == g_max & wealth >= 3 & wealth <= 6, .N] / d[generation == g_max, .N]
+d[generation == g_max & wealth >= 7 & wealth <= 9, .N] / d[generation == g_max, .N]
+
+g_max <- max(d$generation)
+g_max <- 13
+d[generation == g_max & wealth >= w_max_initial, .N] / d[generation == g_max, .N]
+
 
 # Strategies of the Richest -----------------------------------------------
-d <- d1c0_h09
+d <- d1c1
 g_max <- max(d$generation)
 w <- d[generation == g_max & wealth > w_max_initial, wealth]
 s <- d[generation == g_max & wealth > w_max_initial, strategy]
@@ -98,7 +109,7 @@ plot(s ~ w)
 
 
 # Fertility of the Richest ------------------------------------------------
-d <- d1c0_h09
+d <- d1c1
 g_max <- max(d$generation)
 w <- d[generation == g_max & wealth > w_max_initial, wealth]
 f <- d[generation == g_max & wealth > w_max_initial, fertility]
@@ -121,7 +132,7 @@ for (g in 0:max(d$generation)) {
 
 
 # Fertility of Normal Classes ------------------------------------------------
-d <- d1c0_h09
+d <- d1c0
 g_max <- max(d$generation)
 w <- d[generation == g_max, wealth]
 s <- d[generation == g_max, strategy]

@@ -18,31 +18,28 @@ print('started at:', current_time)
 num_class = 10 # just for initial
 num_ancestor = 100
 # num_ancestor = num_class * 11
-num_generation = 50
+num_generation = 100
 # indefinite number actually because of the limit_population
-limit_population = 200000
+limit_population = 50000
 max_offspring = 15
 mutation_rate = 0.005
 num_column = 11
-# [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] ancestor's class; [8] parent's class; [9] generation
-
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 # Environmental
-hazard_env = 0.9
+hazard_env = 0.5
 income_max = num_class
 cost_base = 0
+mobility = num_class / 2 # how variable the external income is
 
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
-cost_class = 0
+cost_class = 1
 
 
 
 # DATA ARRAYS ----
 ancestors = np.zeros((num_ancestor, num_column))
-# [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] ancestor's class; [8] parent's class; [9] generation
-
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 
@@ -50,7 +47,7 @@ ancestors = np.zeros((num_ancestor, num_column))
 ancestors = func.initialize_population(ancestors, num_class)
 ancestors = func.allocate_wealth(ancestors)
 ancestors = func.give_birth(ancestors, max_offspring, cost_class, cost_base, death_offspring, hazard_env)
-ancestors[:, 7] = ancestors[:, 2] # ancestor tag
+ancestors[:, 8] = ancestors[:, 2] # ancestor tag
 
 
 
@@ -122,10 +119,12 @@ for t in range(num_generation):
 
 
     # offspring earns their income
-    offspring = func.earn_income(offspring, num_class)
+    offspring = func.earn_income(offspring, num_class, mobility)
     offspring[:, 2] = offspring[:, 0] + offspring[:, 1]
-    # offspring[:, 2] = np.clip(offspring[:, 2], 0, num_class - 1)
+    # offspring[:, 2] = np.clip(offspring[:, 2], 0, np.max(offspring[:, 2]))
+    offspring[offspring[:, 2] < 0, 2] = 0
     offspring[:, 2] = np.round(offspring[:, 2])
+    print("class", offspring[:, 2])
 
 
     # record ancestor class
@@ -148,8 +147,8 @@ if death_offspring == 0 and cost_class == 0:
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
-    # np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
-    np.savetxt('./data/data_d1c0_h09.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    # np.savetxt('./data/data_d1c0_h09.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 0 and cost_class == 1:
