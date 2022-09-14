@@ -1,6 +1,7 @@
 # IMPORT ----
 from math import exp
 import numpy as np
+from sklearn.preprocessing import scale
 
 
 def initialize_population(population, num_class):
@@ -91,7 +92,15 @@ def inherit_wealth(offspring, parents, index):
 
 def earn_income(offspring, num_class):
     """offspring earn income based on a Poisson distribution after inheriting bequests from parents"""
+    
+    # Poisson income
     # offspring[:, 1] = np.random.poisson(lam=mean_income, size=len(offspring))
+    
+    # uniform income
     offspring[:, 1] = np.random.uniform(low=0, high=num_class-1, size=len(offspring))
+
+    # normal income
+    # offspring[:, 1] = np.random.normal(loc=4.5, scale=1.5, size=len(offspring))
+    # offspring[:, 1] = np.clip(offspring[:, 1], 0, num_class-1)
 
     return offspring

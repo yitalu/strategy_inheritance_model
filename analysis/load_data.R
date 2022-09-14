@@ -1,30 +1,31 @@
 # Load Package ----
 library("data.table")
 library("rethinking")
-
+library("ggplot2")
+library("ggridges")
 
 
 # Load Data ----
 d0c0 <- fread("./data/data_d0c0.csv")
+colnames(d0c0)[1] <- "inheritance"
+d <- d0c0
 
 d1c0 <- fread("./data/data_d1c0.csv")
+colnames(d1c0)[1] <- "inheritance"
+d <- d1c0
 
 d1c0 <- fread("./data/data_d1c0_h00.csv")
 d1c0 <- fread("./data/data_d1c0_h03.csv")
 d1c0 <- fread("./data/data_d1c0_h06.csv")
 d1c0 <- fread("./data/data_d1c0_h09.csv")
 
+
 d0c1 <- fread("./data/data_d0c1.csv")
-d1c1 <- fread("./data/data_d1c1.csv")
-
-colnames(d0c0)[1] <- "inheritance"
-colnames(d1c0)[1] <- "inheritance"
 colnames(d0c1)[1] <- "inheritance"
-colnames(d1c1)[1] <- "inheritance"
-
-d <- d0c0
-d <- d1c0
 d <- d0c1
+
+d1c1 <- fread("./data/data_d1c1.csv")
+colnames(d1c1)[1] <- "inheritance"
 d <- d1c1
 
 
@@ -33,7 +34,7 @@ d <- d1c1
 
 # Population Size in the Last Generation ----------------------------------
 g_max <- max(d$generation)
-d[generation == g_max & wealth > 9, .N]
+d[generation == g_max & wealth > w_max_initial, .N]
 n_pop <- d[generation == g_max, .N]
 print(n_pop)
 
@@ -49,14 +50,41 @@ sort(unique(d[generation == g_max & wealth > w_max_initial, ]$wealth))
 num_class <- rep(0, max(d$generation) + 1)
 for (g in 0:max(d$generation)) {
   print(g)
-  num_class[g+1] <- length(unique(d[generation == g, wealth]))
-  # num_class[g+1] <- max(unique(d[generation == g, wealth]))
+  # num_class[g+1] <- length(unique(d[generation == g, wealth]))
+  num_class[g+1] <- max(unique(d[generation == g, wealth]))
   plot(num_class, pch = 20)
   Sys.sleep(0.1)
 }
 
 
 # good for d0c0 and d1c0 when population grows large enough
+
+colnames(diamonds)
+
+ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
+  geom_density_ridges() +
+  theme_ridges() + 
+  theme(legend.position = "none")
+
+library("hrbrthemes")
+ggplot(data=diamonds, aes(x=price, group=cut, fill=cut)) +
+  geom_density(adjust=1.5, alpha=.4) +
+  theme_ipsum()
+
+d_mod <- d[wealth > w_max_initial]
+
+ggplot(d, aes(wealth, generation, group = generation)) + 
+  geom_density_ridges(fill = "lightblue", alpha=0.6, stat="binline", bins=30) +
+  theme_ridges() + 
+  theme(legend.position = "none") + 
+  labs(title = 'Emergence of the Super Rich')
+
+ggplot(d, aes(wealth, group=generation, fill=generation)) +
+  geom_density(adjust=1.5, alpha=0.4) +
+  theme_ipsum()
+
+d[generation == 6 & wealth > w_max_initial, wealth]
+
 
 
 
@@ -149,3 +177,6 @@ dens(d[generation == g_max, `parent class`])
 table(d[generation == g_max, `parent class`])
 dens(d[generation == g_max & `parent class` == 8, strategy])
 dens(d[generation == g_max & `parent class` == 8, fertility])
+
+
+
