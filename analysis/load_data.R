@@ -14,10 +14,10 @@ d1c0 <- fread("./data/data_d1c0.csv")
 colnames(d1c0)[1] <- "inheritance"
 d <- d1c0
 
-d1c0 <- fread("./data/data_d1c0_h00.csv")
-d1c0 <- fread("./data/data_d1c0_h03.csv")
-d1c0 <- fread("./data/data_d1c0_h06.csv")
-d1c0 <- fread("./data/data_d1c0_h09.csv")
+d1c0_h00 <- fread("./data/data_d1c0_h00.csv")
+d1c0_h03 <- fread("./data/data_d1c0_h03.csv")
+d1c0_h06 <- fread("./data/data_d1c0_h06.csv")
+d1c0_h09 <- fread("./data/data_d1c0_h09.csv")
 
 
 d0c1 <- fread("./data/data_d0c1.csv")
@@ -90,12 +90,16 @@ dens(d[generation == g_max & wealth > w_max_initial, wealth])
 
 
 # Strategies of the Richest -----------------------------------------------
+d <- d1c0_h09
+g_max <- max(d$generation)
 w <- d[generation == g_max & wealth > w_max_initial, wealth]
 s <- d[generation == g_max & wealth > w_max_initial, strategy]
 plot(s ~ w)
 
 
 # Fertility of the Richest ------------------------------------------------
+d <- d1c0_h09
+g_max <- max(d$generation)
 w <- d[generation == g_max & wealth > w_max_initial, wealth]
 f <- d[generation == g_max & wealth > w_max_initial, fertility]
 plot(f ~ w)
@@ -117,11 +121,15 @@ for (g in 0:max(d$generation)) {
 
 
 # Fertility of Normal Classes ------------------------------------------------
+d <- d1c0_h09
+g_max <- max(d$generation)
 w <- d[generation == g_max, wealth]
 s <- d[generation == g_max, strategy]
 f <- d[generation == g_max, fertility]
 plot(s ~ jitter(w))
+grid()
 plot(jitter(f) ~ jitter(w))
+grid()
 
 sum(d$wealth > 9)
 d[generation == g_max, .N]
