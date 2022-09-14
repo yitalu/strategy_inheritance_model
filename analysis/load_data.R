@@ -34,6 +34,7 @@ d <- d1c1
 
 # Population Size in the Last Generation ----------------------------------
 g_max <- max(d$generation)
+w_max_initial <- max(d[generation == 0, ]$wealth)
 d[generation == g_max & wealth > w_max_initial, .N]
 n_pop <- d[generation == g_max, .N]
 print(n_pop)
@@ -73,17 +74,17 @@ ggplot(data=diamonds, aes(x=price, group=cut, fill=cut)) +
 
 d_mod <- d[wealth > w_max_initial]
 
-ggplot(d, aes(wealth, generation, group = generation)) + 
+ggplot(d_mod, aes(wealth, generation, group = generation)) + 
   geom_density_ridges(fill = "lightblue", alpha=0.6, stat="binline", bins=30) +
   theme_ridges() + 
   theme(legend.position = "none") + 
   labs(title = 'Emergence of the Super Rich')
 
-ggplot(d, aes(wealth, group=generation, fill=generation)) +
+ggplot(d_mod, aes(wealth, group=generation, fill=generation)) +
   geom_density(adjust=1.5, alpha=0.4) +
   theme_ipsum()
 
-d[generation == 6 & wealth > w_max_initial, wealth]
+dens(d[generation == g_max & wealth > w_max_initial, wealth])
 
 
 

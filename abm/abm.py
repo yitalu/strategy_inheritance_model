@@ -23,17 +23,19 @@ num_generation = 50
 limit_population = 200000
 max_offspring = 15
 mutation_rate = 0.005
-num_column = 10
+num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] ancestor's class; [8] parent's class; [9] generation
 
+# [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
+
 # Environmental
-hazard_env = 0
+hazard_env = 0.5
 income_max = num_class
 cost_base = 0
 
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
-cost_class = 0
+cost_class = 1
 
 
 
@@ -41,6 +43,7 @@ cost_class = 0
 ancestors = np.zeros((num_ancestor, num_column))
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] ancestor's class; [8] parent's class; [9] generation
 
+# [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 
 # INITIALIZATION ----
@@ -69,11 +72,13 @@ for t in range(num_generation):
         data = np.concatenate((data, data_new), axis=0)
         
     fertility_total = sum(parents[:, 6])
+    survived_offspring = sum(parents[:, 7])
     print("fertility", fertility_total)
+    print("survived_offspring", survived_offspring)
     
 
-    # break the loop when: 1) no fertility; 2) last gen
-    if fertility_total == 0 or fertility_total > limit_population:
+    # break the loop when: 1) no survived offspring; 2) last gen
+    if survived_offspring == 0 or survived_offspring > limit_population:
     # if fertility_total == 0 or t == num_generation - 1:
         print("broke the loop at generation", t)
         break
@@ -82,30 +87,30 @@ for t in range(num_generation):
 
 
     # create offspring array
-    offspring = np.zeros((int(fertility_total), num_column))
+    offspring = np.zeros((int(survived_offspring), num_column))
 
 
     # offspring inherits strategies with mutation
-    offspring[:, 3] = np.repeat(parents[:, 3], parents[:, 6].astype(int), axis=0)
+    offspring[:, 3] = np.repeat(parents[:, 3], parents[:, 7].astype(int), axis=0)
     draw = np.random.uniform(0, 1, len(offspring))
     mutants = np.where(draw < mutation_rate)
     offspring[mutants, 3] = np.random.uniform(0, 1, len(mutants[0]))
 
 
     # offspring inherits bequests evenly
-    bequest_even = parents[parents[:, 6] != 0, 5] // parents[parents[:, 6] != 0, 6]
-    offspring[:, 0] = np.repeat(bequest_even, parents[parents[:, 6] != 0, 6].astype(int), axis=0)
+    bequest_even = parents[parents[:, 7] != 0, 5] // parents[parents[:, 7] != 0, 7]
+    offspring[:, 0] = np.repeat(bequest_even, parents[parents[:, 7] != 0, 7].astype(int), axis=0)
 
 
     # some offspring gets the remainder
-    bequest_remainder = parents[parents[:, 6] != 0, 5] % parents[parents[:, 6] != 0, 6]
+    bequest_remainder = parents[parents[:, 7] != 0, 5] % parents[parents[:, 7] != 0, 7]
     # print("bequest_remainder", bequest_remainder)
     # print("length bequest remainder", len(bequest_remainder)) # should be same as length of parents
 
     remainder = []
     for i in range(len(bequest_remainder)):
 
-        remainder_by_family = [1] * int(bequest_remainder[i]) + [0] * int(parents[parents[:, 6] != 0, 6][i] - bequest_remainder[i])
+        remainder_by_family = [1] * int(bequest_remainder[i]) + [0] * int(parents[parents[:, 7] != 0, 7][i] - bequest_remainder[i])
 
         remainder = np.concatenate((remainder, remainder_by_family), axis=None)
 
@@ -124,26 +129,25 @@ for t in range(num_generation):
 
 
     # record ancestor class
-    offspring[:, 7] = np.repeat(parents[:, 7], parents[:, 6].astype(int), axis=0)
+    offspring[:, 8] = np.repeat(parents[:, 8], parents[:, 7].astype(int), axis=0)
     
     
     # record parent class
-    offspring[:, 8] = np.repeat(parents[:, 2], parents[:, 6].astype(int), axis=0)
+    offspring[:, 9] = np.repeat(parents[:, 2], parents[:, 7].astype(int), axis=0)
 
     
     # record generation
-    offspring[:, 9] = t + 1
+    offspring[:, 10] = t + 1
 
 
 # OUTPUT DATA
-column_name = 'inheritance, income, wealth, strategy, fertility investment, bequests, fertility, ancestor class, parent class, generation'
+column_name = 'inheritance, income, wealth, strategy, fertility investment, bequests, fertility, survived offspring, ancestor class, parent class, generation'
 
 if death_offspring == 0 and cost_class == 0:
     np.savetxt('./data/data_d0c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
-    # np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)

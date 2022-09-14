@@ -1,7 +1,6 @@
 # IMPORT ----
 from math import exp
 import numpy as np
-from sklearn.preprocessing import scale
 
 
 def initialize_population(population, num_class):
@@ -64,30 +63,31 @@ def give_birth(population, max_num_offspring, cost_class, cost_base, death_offsp
     elif death_offspring == 0:
         reproduction[:, 3] = reproduction[:, 1]
 
-    population[:, 6] = reproduction[:, 3].astype(int)
+    population[:, 6] = reproduction[:, 1].astype(int)
+    population[:, 7] = reproduction[:, 3].astype(int)
 
     return population
 
 
 
-def inherit_wealth(offspring, parents, index):
-    """offspring inherits bequests from parents"""
+# def inherit_wealth(offspring, parents, index):
+#     """offspring inherits bequests from parents"""
 
-    bequests = int(parents[index, 5])
-    fertility = int(parents[index, 6])
+#     bequests = int(parents[index, 5])
+#     fertility = int(parents[index, 6])
 
-    wealth_inherited = np.zeros((fertility, 1))
+#     wealth_inherited = np.zeros((fertility, 1))
 
-    wealth_inherited[:, 0] = [bequests // fertility] * fertility
+#     wealth_inherited[:, 0] = [bequests // fertility] * fertility
 
-    remainder = bequests % fertility
+#     remainder = bequests % fertility
 
-    wealth_inherited[0:remainder, 0] += 1
-    # print("wealth_inherited", wealth_inherited)
+#     wealth_inherited[0:remainder, 0] += 1
+#     # print("wealth_inherited", wealth_inherited)
 
-    offspring[:, 0] = wealth_inherited[:, 0]
+#     offspring[:, 0] = wealth_inherited[:, 0]
     
-    return offspring
+#     return offspring
 
 
 def earn_income(offspring, num_class):
