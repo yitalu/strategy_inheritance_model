@@ -18,7 +18,7 @@ print('started at:', current_time)
 num_class = 10 # just for initial
 num_ancestor = 100
 # num_ancestor = num_class * 11
-num_generation = 100
+num_generation = 500
 # indefinite number actually because of the limit_population
 limit_population = 50000
 max_offspring = 15
@@ -28,13 +28,14 @@ num_column = 11
 
 # Environmental
 hazard_env = 0.5
-income_max = num_class
 cost_base = 0
-mobility = num_class / 2 # how variable the external income is
+income_distribution = "uniform" # uniform / normal / poisson
+income_dependency = "self" # society / self / parent
+mobility = 3 # how variable the external income is
 
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
-cost_class = 1
+cost_class = 0
 
 
 
@@ -116,16 +117,7 @@ for t in range(num_generation):
     # print("offspring[:, 0]", offspring[:, 0])
     # print("length offspring", len(offspring[:, 0]))
     offspring[:, 0] = offspring[:, 0] + remainder
-
-
-    # offspring earns their income
-    offspring = func.earn_income(offspring, num_class, mobility)
-    offspring[:, 2] = offspring[:, 0] + offspring[:, 1]
-    # offspring[:, 2] = np.clip(offspring[:, 2], 0, np.max(offspring[:, 2]))
-    offspring[offspring[:, 2] < 0, 2] = 0
-    offspring[:, 2] = np.round(offspring[:, 2])
-    print("class", offspring[:, 2])
-
+    
 
     # record ancestor class
     offspring[:, 8] = np.repeat(parents[:, 8], parents[:, 7].astype(int), axis=0)
@@ -133,6 +125,15 @@ for t in range(num_generation):
     
     # record parent class
     offspring[:, 9] = np.repeat(parents[:, 2], parents[:, 7].astype(int), axis=0)
+    
+
+    # offspring earns their income
+    offspring = func.earn_income(offspring, num_class, income_distribution, income_dependency, mobility)
+    offspring[:, 2] = offspring[:, 0] + offspring[:, 1]
+    # offspring[:, 2] = np.clip(offspring[:, 2], 0, np.max(offspring[:, 2]))
+    offspring[offspring[:, 2] < 0, 2] = 0
+    offspring[:, 2] = np.round(offspring[:, 2])
+    # print("class", offspring[:, 2])
 
     
     # record generation

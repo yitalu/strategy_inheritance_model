@@ -90,32 +90,67 @@ def give_birth(population, max_num_offspring, cost_class, cost_base, death_offsp
 #     return offspring
 
 
-def earn_income(offspring, num_class, mobility):
-    """offspring earn income based on a Poisson distribution after inheriting bequests from parents"""
+def earn_income(offspring, num_class, income_distribution, income_dependency, mobility):
+    """offspring earn income based on a Uniform/Normal/Poisson distribution after inheriting bequests from parents"""
     
+    # Uniform Income
+    if income_distribution == "uniform":
+
+        # income depends on society average
+        if income_dependency == "society":
+            # offspring[:, 1] = np.random.uniform(low=0, high=num_class-1, size=len(offspring))
+            offspring[:, 1] = np.random.uniform(low = (num_class-1)/2 - mobility, high = (num_class-1)/2 + mobility, size = len(offspring))
+
+        # income depends on offspring inheritance
+        elif income_dependency == "self":
+            for i in range(len(offspring[:, 1])):
+                offspring[i, 1] = np.random.uniform(low = offspring[i, 0] - mobility, high = offspring[i, 0] + mobility, size = 1)
+
+        # income depends on parent class
+        elif income_dependency == "parent":
+            for i in range(len(offspring[:, 1])):
+                offspring[i, 1] = np.random.uniform(low = offspring[i, 9] - mobility, high = offspring[i, 9] + mobility, size = 1)
+
+
+    # Normal Income
+    elif income_distribution == "normal":
+    
+        # income depend on society average
+        if income_dependency == "society":
+            offspring[:, 1] = np.random.normal(loc = (num_class-1)/2, scale = mobility, size=len(offspring))
+
+        # income depends on offspring inheritance
+        elif income_dependency == "self":
+            for i in range(len(offspring[:, 1])):
+                offspring[i, 1] = np.random.normal(loc = offspring[i, 9], scale = mobility, size = 1)
+
+        # income depends on parent class
+        elif income_dependency == "parent":
+            for i in range(len(offspring[:, 1])):
+                offspring[i, 1] = np.random.normal(loc = offspring[i, 9], scale = mobility, size = 1)
+    
+
     # Poisson income
-    # offspring[:, 1] = np.random.poisson(lam=mean_income, size=len(offspring))
-    # for i in range(len(offspring[:, 1])):
-        # offspring[i, 1] = np.random.poisson(lam=offspring[i, 0], size=1)
+    elif income_distribution == "poisson":
     
-    # uniform income
-    # offspring[:, 1] = np.random.uniform(low=0, high=num_class-1, size=len(offspring))
-    # for i in range(len(offspring[:, 1])):
-        # offspring[i, 1] = np.random.uniform(low = offspring[i, 0] - mobility, high = offspring[i, 0] + mobility, size = 1)
+        # income depends on society average
+        if income_dependency == "society":
+            offspring[:, 1] = np.random.poisson(lam=(num_class-1)/2, size=len(offspring))
+    
+        # income depends on offspring inheritance
+        elif income_dependency == "self":
+            for i in range(len(offspring[:, 1])):
+                offspring[i, 1] = np.random.poisson(lam=offspring[i, 0], size=1)
 
-    # normal income
-    # offspring[:, 1] = np.random.normal(loc=4.5, scale=1.5, size=len(offspring))
-    # offspring[:, 1] = np.clip(offspring[:, 1], 0, num_class-1)
-    for i in range(len(offspring[:, 1])):
-        offspring[i, 1] = np.random.normal(loc = offspring[i, 0], scale = mobility, size = 1)
-    
+        # income depends on parent class
+        elif income_dependency == "parent":
+            for i in range(len(offspring[:, 1])):
+                offspring[i, 1] = np.random.poisson(lam=offspring[i, 9], size=1)
+
+
+    # no negative income
     # offspring[offspring[:, 1] < 0, 1] = 0
-
-    # if np.max(offspring[:, 1]) > 0:
-    #     offspring[:, 1] = np.clip(offspring[:, 1], 0, np.max(offspring[:, 1]))
-    # elif np.max(offspring[:, 1]) <= 0:
-    #     offspring[:, 1] = np.clip(offspring[:, 1], 0, 0)
     
-    print("income", offspring[:, 1])
+    # print("income", offspring[:, 1])
 
     return offspring
