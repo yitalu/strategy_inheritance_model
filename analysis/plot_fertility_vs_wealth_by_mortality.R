@@ -72,7 +72,6 @@ wilcox.test(d0[, fertility], d3[, fertility])
 wilcox.test(d0[, fertility], d6[, fertility])
 wilcox.test(d0[, fertility], d9[, fertility])
 wilcox.test(d3[, fertility], d9[, fertility])
-
 wilcox.report(d0[, fertility], d9[, fertility])
 
 fit <- lm(fertility ~ mortality, data = d_combined)
