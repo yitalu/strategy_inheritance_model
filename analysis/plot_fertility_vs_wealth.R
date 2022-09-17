@@ -6,12 +6,12 @@ d <- d1c0
 
 
 # Plot Fertility vs Wealth -------------------------------------------------
-pdf(file = "./figures/fertility_vs_wealth.pdf")
+# tiff(file = "./figures/fertility_vs_wealth.tiff", width = 2000, height = 1600, res = 300)
 plot(jitter(d$fertility) ~ jitter(d$wealth), ylab = "Fertility", xlab = "Wealth Strata", pch=20, cex=0.8, col=alpha("#69b3a2", 0.4),)
 grid()
-dev.off()
+# dev.off()
 
-ggplot(data=d, aes(x=wealth, y=fertility, group = wealth, fill=wealth)) + 
+ggplot(data=d, aes(x=wealth, y=fertility, group = wealth, fill=wealth)) +
   # geom_violin() +
   # theme(legend.position="none") +
   geom_point(position = position_jitter(seed = 1, width = 0.2)) + 
@@ -23,6 +23,7 @@ ggplot(data=d, aes(x=wealth, y=fertility, group = wealth, fill=wealth)) +
 
 
 # Plot Fertility vs Wealth Over Time ---------------------------------------
+tiff(file = "./figures/fertility_vs_wealth_over_time.tiff", width = 2000, height = 1600, res = 300)
 ggplot(data=d, aes(x=wealth, y=fertility)) +
   geom_point(color="#69b3a2", alpha=0.4, size=1, position = position_jitter(seed = 1, width = 0.2)) + 
   theme_ipsum() +
@@ -34,3 +35,4 @@ ggplot(data=d, aes(x=wealth, y=fertility)) +
   ) + 
   xlab("Wealth Strata") +
   ylab("Fertility")
+dev.off()

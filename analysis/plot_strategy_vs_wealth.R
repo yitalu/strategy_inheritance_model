@@ -7,10 +7,10 @@ d <- d1c0
 
 
 # Plot Strategy vs Wealth -------------------------------------------------
-pdf(file = "./figures/strategy_vs_wealth.pdf")
-plot(jitter(d$strategy) ~ jitter(d$wealth), ylab = "Strategy", xlab = "Wealth Strata", pch=20, cex=0.8, col=alpha("#69b3a2", 0.4),)
+# tiff(file = "./figures/strategy_vs_wealth.tiff", width = 2000, height = 1600, res = 300)
+plot(jitter(d$strategy) ~ jitter(d$wealth), ylab = "Strategy", xlab = "Wealth Strata", pch=20, cex=0.8, col=alpha("#69b3a2", 0.4))
 grid()
-dev.off()
+# dev.off()
 
 ggplot(data=d, aes(x=wealth, y=strategy, group = wealth, fill=wealth)) +
   # geom_violin() +
@@ -25,7 +25,7 @@ ggplot(data=d, aes(x=wealth, y=strategy, group = wealth, fill=wealth)) +
 
 
 # Plot Strategy vs Wealth Over Time ---------------------------------------
-pdf(file = "./figures/strategy_vs_wealth_over_time.pdf")
+# tiff(file = "./figures/strategy_vs_wealth_over_time.tiff", width = 2000, height = 1600, res = 300)
 ggplot(data=d, aes(x=wealth, y=strategy)) +
   geom_point(color="#69b3a2", alpha=0.4, size=1, position = position_jitter(seed = 1, width = 0.2)) + 
   theme_ipsum() +
@@ -37,4 +37,4 @@ ggplot(data=d, aes(x=wealth, y=strategy)) +
   ) + 
   xlab("Wealth Strata") +
   ylab("Strategy")
-dev.off()
+# dev.off()

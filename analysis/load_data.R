@@ -1,8 +1,8 @@
 # Load Package ----
-# library("data.table")
-# library("rethinking")
-# library("ggplot2")
-# library("hrbrthemes")
+library("data.table")
+library("rethinking")
+library("ggplot2")
+library("hrbrthemes")
 
 
 

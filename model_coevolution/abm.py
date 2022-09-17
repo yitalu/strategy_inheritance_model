@@ -30,7 +30,7 @@ num_column = 11
 hazard_env = 0.5
 cost_base = 0
 income_distribution = "uniform" # uniform / normal / poisson
-income_dependency = "society" # society / self / parent
+income_dependency = "self" # society / self / parent
 mobility = 3 # how variable the external income is
 
 # Conditional (1 for true; 0 for false)
