@@ -21,20 +21,26 @@ for (g in 0:max(d$generation)) {
 
 # Plot Wealth Distribution Over Time --------------------------------------
 
-plot(NULL, xlab = "Wealth", ylab = "Density", xlim = c(0, max(d$wealth)), ylim = c(0, 1))
+pdf(file = "./figures/wealth_distribution_over_time.pdf")
+plot(NULL, xlab = "Wealth", ylab = "Density", xlim = c(0, max(d$wealth)), ylim = c(0, 0.4), main = "Wealth Distribution over Time")
 for (g in 0:max(d$generation)) {
   lines(density(d[generation == g, wealth]))
+  Sys.sleep(0.1)
 }
+dev.off()
 
 g <- 15
 dens(d[generation == g, wealth])
 
 
 # Plot Stratifying Wealth -------------------------------------------------
-strata_interval <- 5
+strata_interval <- 10
 source("./analysis/stratify_wealth.R")
+
+png(file = "./figures/stratifying_wealth.png")
 ggplot(data=d_strata, aes(x=generation, group=wealth, fill=wealth)) +
   geom_density(adjust=1.5, position="fill") +
   theme_ipsum() + 
   ylab("Density of Wealth Strata") +
   xlab("Generation")
+dev.off()

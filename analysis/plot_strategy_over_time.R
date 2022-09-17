@@ -16,7 +16,7 @@ ggplot(data=d, aes(x=strategy, group = generation, fill=generation)) +
   facet_wrap(~generation) +
   theme(
     # legend.position="none",
-    panel.spacing = unit(0.5, "lines"),
+    panel.spacing = unit(1, "lines"),
     axis.ticks.x=element_blank()
   ) + 
   xlab("Strategy") +

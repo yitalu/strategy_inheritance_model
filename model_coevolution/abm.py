@@ -20,14 +20,14 @@ num_ancestor = 100
 # num_ancestor = num_class * 11
 num_generation = 500
 # indefinite number actually because of the limit_population
-limit_population = 50000
+limit_population = 100000
 max_offspring = 15
 mutation_rate = 0.005
 num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 # Environmental
-hazard_env = 0.9
+hazard_env = 0.5
 cost_base = 0
 income_distribution = "uniform" # uniform / normal / poisson
 income_dependency = "society" # society / self / parent
@@ -148,8 +148,8 @@ if death_offspring == 0 and cost_class == 0:
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
-    # np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
-    np.savetxt('./data/data_d1c0_h09.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    # np.savetxt('./data/data_d1c0_h09.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 0 and cost_class == 1:

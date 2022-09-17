@@ -6,8 +6,10 @@ d <- d1c0
 
 
 # Plot Fertility vs Wealth -------------------------------------------------
+pdf(file = "./figures/fertility_vs_wealth.pdf")
 plot(jitter(d$fertility) ~ jitter(d$wealth), ylab = "Fertility", xlab = "Wealth Strata", pch=20, cex=0.8, col=alpha("#69b3a2", 0.4),)
 grid()
+dev.off()
 
 ggplot(data=d, aes(x=wealth, y=fertility, group = wealth, fill=wealth)) + 
   # geom_violin() +

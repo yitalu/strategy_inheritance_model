@@ -22,6 +22,8 @@ d_barplot <- data.frame(
   descendant_number = descendant_number
   )
 
+pdf(file = "./figures/descendant_number.pdf")
 ggplot(d_barplot, aes(x=ancestor_class, y=descendant_number)) + 
   geom_bar(stat = "identity") + 
   theme_bw()
+dev.off()
