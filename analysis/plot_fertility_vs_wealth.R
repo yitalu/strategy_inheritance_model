@@ -6,19 +6,10 @@ d <- d1c0
 
 
 # Plot Fertility vs Wealth -------------------------------------------------
-# tiff(file = "./figures/fertility_vs_wealth.tiff", width = 2000, height = 1600, res = 300)
-plot(jitter(d$fertility) ~ jitter(d$wealth), ylab = "Fertility", xlab = "Wealth Strata", pch=20, cex=0.8, col=alpha("#69b3a2", 0.4),)
+tiff(file = "./figures/fertility_vs_wealth.tiff", width = 2000, height = 1600, res = 300)
+plot(jitter(d$fertility) ~ jitter(d$wealth), ylab = "Fertility", xlab = "Wealth", main = "Wealthier Individuals Give Less Births", pch=20, cex=0.8, col=alpha("#69b3a2", 0.4), cex.main=1, cex.lab=0.9)
 grid()
-# dev.off()
-
-ggplot(data=d, aes(x=wealth, y=fertility, group = wealth, fill=wealth)) +
-  # geom_violin() +
-  # theme(legend.position="none") +
-  geom_point(position = position_jitter(seed = 1, width = 0.2)) + 
-  # geom_jitter(shape=16, position=position_jitter(0.2)) +
-  theme_bw() +
-  xlab("Wealth Strata") +
-  ylab("Fertility")
+dev.off()
 
 
 
@@ -33,6 +24,6 @@ ggplot(data=d, aes(x=wealth, y=fertility)) +
     panel.spacing = unit(0.5, "lines"),
     axis.ticks.x=element_blank()
   ) + 
-  xlab("Wealth Strata") +
-  ylab("Fertility")
+  labs(title="Fertility vs Wealth Over Time", x ="Wealth", y = "Fertility") + 
+  theme(plot.title = element_text(size = 14, hjust = 0.5))
 dev.off()

@@ -7,16 +7,16 @@ def initialize_population(population, num_class):
     """generate  wealth and strategy distributions in population"""
 
     # agents get random classes/wealth
-    population[:, 2] = np.random.randint(0, num_class, len(population))
+    # population[:, 2] = np.random.randint(0, num_class, len(population))
     
     # agents' wealth equally distributed
-    # population[:, 2] = np.repeat(np.arange(0, num_class, 1), 11)
+    population[:, 2] = np.repeat(np.arange(0, num_class, 1), 11)
 
     # agents choose a random fertility strategy
-    population[:, 3] = np.random.uniform(0, 1, len(population)).astype(float)
+    # population[:, 3] = np.random.uniform(0, 1, len(population)).astype(float)
 
     # agents' strategies equally distributed
-    # population[:, 3] = np.repeat([np.linspace(0, 1, 11)], 15, axis=0).flatten()
+    population[:, 3] = np.repeat([np.linspace(0, 1, 11)], num_class, axis=0).flatten()
 
     return population
 

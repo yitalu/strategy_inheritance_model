@@ -16,8 +16,8 @@ print('started at:', current_time)
 # PARAMETERS
 # Basic
 num_class = 10 # just for initial
-num_ancestor = 100
-# num_ancestor = num_class * 11
+# num_ancestor = 100
+num_ancestor = num_class * 11
 num_generation = 500
 # indefinite number actually because of the limit_population
 limit_population = 100000
