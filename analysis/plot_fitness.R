@@ -65,51 +65,39 @@ ggplot(d_barplot, aes(x=ancestor_strategy, y=descendant_number_per_strategy)) +
 
 
 # Plot Number of Descendant by Ancestor Class and Strategy ----------------
-num_strategy <- length(unique(d[generation == 0, strategy]))
+num_strategy <- length(unique(d[generation == 0, strategy])) # 11
+num_ancestor_wealth <- 10
 
-descendant_number <- rep(0, (max(d$`ancestor class`) + 1) * num_strategy)
-ancestor_number <- rep(0, (max(d$`ancestor class`) + 1) * num_strategy)
+ancestor_strategy <- rep(seq(0, 1, 0.1), num_ancestor_wealth)
 
-for (i in 0:(length(ancestor_number)-1)) {
-  descendant_number[i+1] <- d[generation == g_max & `ancestor class` == i, .N]
-  ancestor_number[i+1] <- d[generation == 0 & wealth == i, .N]
+ancestor_wealth <- rep(0, num_strategy)
+for (i in 1:9) {
+  ancestor_wealth <- c(ancestor_wealth, rep(i, num_strategy))
 }
 
-library(hexbin)
-library(RColorBrewer)
-x <- d[generation==g_max, wealth]
-y <- d[generation==g_max, strategy]
+num_descendant <- rep(0, length(ancestor_strategy))
+num_ancestor <- rep(0, length(ancestor_strategy))
+k <- 1
+for (i in 0:9) {
+  for (j in 0:10) {
+    num_descendant[k] <- d[generation == max(d$generation) & `ancestor class` == i & strategy == j/10, .N]
+    num_ancestor[k] <- d[generation == 0 & `ancestor class` == i & strategy == j/10, .N]
+    k <- k + 1
+  }
+}
 
-# 2d histogram with default option
-bin <- hexbin(d$wealth, d$strategy, xbins=40)
-my_colors=colorRampPalette(rev(brewer.pal(11,'Spectral')))
-plot(bin, main="" , colramp=my_colors , legend=F )
+num_descendant <- num_descendant / num_ancestor
 
-ggplot(d, aes(x=x, y=y) ) +
-  geom_bin2d(bins = 20) +
-  theme_bw()
+d_density2d <- data.frame(ancestor_wealth = ancestor_wealth, ancestor_strategy = ancestor_strategy, num_descendant = num_descendant)
 
-ggplot(d, aes(x=x, y=y) ) +
-  geom_bin2d(bins = 20) +
-  scale_fill_continuous(type = "viridis") +
-  theme_bw()
 
-# Hexbin chart with default option
-ggplot(d, aes(x=x, y=y) ) +
-  geom_hex() +
-  theme_bw()
-
-# Bin size control + color palette
-# tiff(file="./figures/fertility_parents.tiff", width = 2000, height = 1600, res = 300)
-ggplot(d, aes(x=wealth, y=strategy) ) +
-  geom_hex(bins = 20) +
-  # scale_fill_continuous(type = "viridis") + 
-  # scale_fill_distiller(palette = 1, direction=-1) + 
-  scale_fill_distiller(palette = "Spectral", direction=-1) +
-  labs(title = "Fertility of Parents Across Generations", x = "Wealth", y = "Strategy", fill = "Fertility") + 
-  scale_x_continuous(breaks = round(seq(min(d$wealth) - 1, max(d$wealth), by = 2),1)) +
-  scale_y_continuous(breaks = round(seq(min(d$strategy) - 0.1, max(d$strategy), by = 0.2),1)) + 
-  theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5))
-# dev.off()
-
+tiff(file = "./figures/descendant_number.tiff", width = 2000, height = 1600, res = 300)
+ggplot(d_density2d, aes(ancestor_wealth, ancestor_strategy, fill= num_descendant)) + 
+  geom_tile() + 
+  # scale_fill_gradient(low="white", high="blue") + 
+  # scale_fill_distiller(palette = "RdPu") + 
+  scale_fill_viridis(discrete=F, alpha = 0.7, name = "Descendant Number") +
+  theme_ipsum() + 
+  labs(title="Descendant Numbers for Ancestor with Different \n Combinations of Wealth and Strategy", x ="Ancestor Wealth", y = "Ancestor Strategy") + 
+  theme(plot.title = element_text(hjust = 0.5, size = 14))
+dev.off()
