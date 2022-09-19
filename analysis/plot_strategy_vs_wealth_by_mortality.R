@@ -38,10 +38,27 @@ d9[, mortality := rep(0.9, nrow(d9))]
 d_combined <- rbind(d0, d3, d6, d9)
 
 
+d_combined[mortality == 0, mean(strategy), by = wealth]
+d_combined[mortality == 0.3, mean(strategy), by = wealth]
+
+d_mean_0 <- d_combined[mortality == 0, mean(strategy), by = wealth]
+d_mean_3 <- d_combined[mortality == 0.3, mean(strategy), by = wealth]
+d_mean_6 <- d_combined[mortality == 0.6, mean(strategy), by = wealth]
+d_mean_9 <- d_combined[mortality == 0.9, mean(strategy), by = wealth]
+
+d_mean_0[, mortality := rep(0, nrow(d_mean_0))]
+d_mean_3[, mortality := rep(0.3, nrow(d_mean_3))]
+d_mean_6[, mortality := rep(0.6, nrow(d_mean_6))]
+d_mean_9[, mortality := rep(0.9, nrow(d_mean_9))]
+
+d_combined <- rbind(d_mean_0, d_mean_3, d_mean_6, d_mean_9)
+colnames(d_combined) <- c('wealth', 'mean_strategy', 'mortality')
+
 
 # Plot Strategy vs Wealth by Mortality -----------------------------------
-ggplot(data=d_combined, aes(x=wealth, y=strategy, group = mortality, fill=mortality)) +
-  geom_point(color="#69b3a2", alpha=0.4, size=1, position = position_jitter(seed = 1, width = 0.2)) +
+ggplot(data=d_combined[wealth>9,], aes(x=wealth, y=strategy, group = mortality, fill=mortality)) +
+  geom_point(color="#69b3a2", alpha=0.8, size=1, position = position_jitter(seed = 1, width = 0.2)) +
+  # geom_line() +
   theme_ipsum() +
   facet_wrap(~mortality) +
   theme(

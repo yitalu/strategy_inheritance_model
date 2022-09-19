@@ -61,3 +61,7 @@ ggplot(d_barplot, aes(x=ancestor_strategy, y=descendant_number_per_strategy)) +
   labs(title="Ancestors Who Adopt Low Strategy Have More Descendants", x ="Ancestor Strategy", y = "Descendant for Each Strategy") + 
   theme(plot.title = element_text(size = 14, hjust = 0.5))
 # dev.off()
+
+
+
+# Plot Number of Descendant by Ancestor Class and Strategy ----------------
