@@ -53,14 +53,14 @@ s05 <- exp(hazard * (-f/15))
 s10 <- exp(1 * (-f/15))
 
 # pdf(file="./figures/survival_rates.pdf", width = 6, height = 4.3)
-pdf(file="./figures/survival_rates.pdf")
+# pdf(file="./figures/survival_rates.pdf")
 # plot(s02 ~ f, type = "l", lty=1, main = "Per Kid Survival Rate Decreases with Parent Fertility", xlab = "Fertility", ylab = "Survival Rate for Each Child (rs)", ylim=c(0, 1))
 plot(s02 ~ f, type = "l", lty=1, main = "Per Kid Survival Rate Decreases with Parent Fertility", xlab = expression('Fertility  f'[i]), ylab = expression('Survival Rate for Each Child  r'[s]), ylim=c(0, 1))
 lines(s05 ~ f, type = "l", lty=2)
 lines(s10 ~ f, type = "l", lty=4, lwd=1.5)
 grid(col = "gray", lty = "dotted")
 legend(12, 0.2, legend=c("0.2", "0.5", "1"), col=c("black", "black", "black"), lty=c(1,2,4), cex=0.8, text.font=2, title="Hazard Level")
-dev.off()
+# dev.off()
 
 
 # # pdf(file="./figures/survived_offspring.pdf")
