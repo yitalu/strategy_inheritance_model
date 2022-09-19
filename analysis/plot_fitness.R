@@ -65,3 +65,51 @@ ggplot(d_barplot, aes(x=ancestor_strategy, y=descendant_number_per_strategy)) +
 
 
 # Plot Number of Descendant by Ancestor Class and Strategy ----------------
+num_strategy <- length(unique(d[generation == 0, strategy]))
+
+descendant_number <- rep(0, (max(d$`ancestor class`) + 1) * num_strategy)
+ancestor_number <- rep(0, (max(d$`ancestor class`) + 1) * num_strategy)
+
+for (i in 0:(length(ancestor_number)-1)) {
+  descendant_number[i+1] <- d[generation == g_max & `ancestor class` == i, .N]
+  ancestor_number[i+1] <- d[generation == 0 & wealth == i, .N]
+}
+
+library(hexbin)
+library(RColorBrewer)
+x <- d[generation==g_max, wealth]
+y <- d[generation==g_max, strategy]
+
+# 2d histogram with default option
+bin <- hexbin(d$wealth, d$strategy, xbins=40)
+my_colors=colorRampPalette(rev(brewer.pal(11,'Spectral')))
+plot(bin, main="" , colramp=my_colors , legend=F )
+
+ggplot(d, aes(x=x, y=y) ) +
+  geom_bin2d(bins = 20) +
+  theme_bw()
+
+ggplot(d, aes(x=x, y=y) ) +
+  geom_bin2d(bins = 20) +
+  scale_fill_continuous(type = "viridis") +
+  theme_bw()
+
+# Hexbin chart with default option
+ggplot(d, aes(x=x, y=y) ) +
+  geom_hex() +
+  theme_bw()
+
+# Bin size control + color palette
+# tiff(file="./figures/fertility_parents.tiff", width = 2000, height = 1600, res = 300)
+ggplot(d, aes(x=wealth, y=strategy) ) +
+  geom_hex(bins = 20) +
+  # scale_fill_continuous(type = "viridis") + 
+  # scale_fill_distiller(palette = 1, direction=-1) + 
+  scale_fill_distiller(palette = "Spectral", direction=-1) +
+  labs(title = "Fertility of Parents Across Generations", x = "Wealth", y = "Strategy", fill = "Fertility") + 
+  scale_x_continuous(breaks = round(seq(min(d$wealth) - 1, max(d$wealth), by = 2),1)) +
+  scale_y_continuous(breaks = round(seq(min(d$strategy) - 0.1, max(d$strategy), by = 0.2),1)) + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5))
+# dev.off()
+
