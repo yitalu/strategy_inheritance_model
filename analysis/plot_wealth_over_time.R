@@ -47,13 +47,13 @@ ggplot(data=d, aes(x=wealth, group = generation)) +
 
 
 # Plot Wealth Distribution: Start and End ---------------------------------
-tiff(file = "./figures/wealth_start_end.tiff", width = 2000, height = 1600, res = 300)
+# tiff(file = "./figures/wealth_start_end.tiff", width = 2000, height = 1600, res = 300)
 plot(NULL, xlab = "Wealth", ylab = "Density", xlim = c(0, max(d$wealth)), ylim = c(0, 0.4), main = "Wealth Distribution over Time")
 lines(density(d[generation == 1, wealth]), col=alpha("#0c372d", alpha = 0.8), lwd=2)
 lines(density(d[generation == max(d$generation), wealth]), col=alpha("#69b3a2", alpha = 1), lwd=2)
 grid()
 legend(65, 0.4, legend = c("Generation 1", "Generation 19"), col = c("#0c372d", "#69b3a2"), lty=c(1, 1), lwd=c(2, 2), box.lty = 1)
-dev.off()
+# dev.off()
 
 # v <- c(1, max(d$generation))
 # for (g in v) {
