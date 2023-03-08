@@ -3,10 +3,12 @@ source("./analysis/load_data.R")
 d1c0_linked <- fread("./data/testing_area/data_d1c0_linked.csv")
 d1c0_unlinked <- fread("./data/testing_area/data_d1c0_unlinked.csv")
 d1c0_unlinked_0.5 <- fread("./data/testing_area/data_d1c0_unlinked_mutate0.5.csv")
+d1c1_cultural_cost <- fread("./data/testing_area/data_d1c1_cultural_cost.csv")
 
 d <- d1c0_linked
 d <- d1c0_unlinked
 d <- d1c0_unlinked_0.5
+d <- d1c1_cultural_cost
 colnames(d)[1] <- "inheritance"
 # d <- d1c1
 
