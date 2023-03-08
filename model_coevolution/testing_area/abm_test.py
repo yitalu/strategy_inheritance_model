@@ -20,7 +20,7 @@ num_class = 10 # just for initial
 num_ancestor = num_class * 11
 num_generation = 500
 # indefinite number actually because of the limit_population
-limit_population = 100000
+# limit_population = 100000
 limit_population = 50000
 max_offspring = 15
 mutation_rate = 0.005
@@ -36,7 +36,7 @@ mobility = 3 # how variable the external income is
 
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
-cost_class = 0
+cost_class = 1
 
 
 
