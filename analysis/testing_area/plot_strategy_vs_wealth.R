@@ -28,15 +28,3 @@ ggplot(data=d, aes(x=wealth, y=strategy)) +
   labs(title="Strategy vs Wealth Over Time", x ="Wealth", y = "Strategy") + 
   theme(plot.title = element_text(size = 14, hjust = 0.5))
 # dev.off()
-
-ggplot(data=d, aes(x=wealth, y=strategy)) +
-  geom_point(color="#69b3a2", alpha=0.4, size=1) + 
-  theme_ipsum() +
-  facet_wrap(~generation) +
-  theme(
-    # legend.position="none",
-    panel.spacing = unit(0.5, "lines"),
-    axis.ticks.x=element_blank()
-  ) + 
-  labs(title="Strategy vs Wealth Over Time", x ="Wealth", y = "Strategy") + 
-  theme(plot.title = element_text(size = 14, hjust = 0.5))
