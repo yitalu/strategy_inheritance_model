@@ -9,6 +9,7 @@ library("viridis")
 
 # Load Data ----
 d1c0 <- fread("./data/data_d1c0.csv")
+d1c0 <- fread("./data/testing_area/data_d1c0.csv")
 colnames(d1c0)[1] <- "inheritance"
 
 # d1c0_h00 <- fread("./data/data_d1c0_h00.csv")

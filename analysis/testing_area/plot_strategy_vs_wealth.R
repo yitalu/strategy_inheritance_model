@@ -15,7 +15,7 @@ grid()
 
 
 # Plot Strategy vs Wealth Over Time ---------------------------------------
-# tiff(file = "./figures/strategy_vs_wealth_over_time.tiff", width = 2000, height = 1600, res = 300)
+# tiff(file = "./figures/strategy_vs_wealth_over_time_mutation_0.tiff", width = 2000, height = 1600, res = 300)
 ggplot(data=d, aes(x=wealth, y=strategy)) +
   geom_point(color="#69b3a2", alpha=0.4, size=1, position = position_jitter(seed = 1, width = 0.2)) + 
   theme_ipsum() +

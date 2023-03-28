@@ -24,6 +24,7 @@ num_generation = 500
 limit_population = 50000
 max_offspring = 15
 mutation_rate = 0.005
+mutation_rate = 0.5
 num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
@@ -48,7 +49,7 @@ ancestors = np.zeros((num_ancestor, num_column))
 
 # INITIALIZATION ----
 ancestors = func.initialize_population(ancestors, num_class)
-ancestors = func.allocate_wealth(ancestors)
+ancestors = func.allocate_wealth(ancestors, max_offspring)
 ancestors = func.give_birth(ancestors, max_offspring, cost_class, cost_base, death_offspring, hazard_env)
 ancestors[:, 8] = ancestors[:, 2] # ancestor tag
 
@@ -64,7 +65,7 @@ for t in range(num_generation):
     # offspring becomes parents
     if t > 0:
         parents = offspring
-        parents = func.allocate_wealth(parents)
+        parents = func.allocate_wealth(parents, max_offspring)
         parents = func.give_birth(parents, max_offspring, cost_class, cost_base, death_offspring, hazard_env)
 
         # record parent data

@@ -46,7 +46,7 @@ ancestors = np.zeros((num_ancestor, num_column))
 
 # INITIALIZATION ----
 ancestors = func.initialize_population(ancestors, num_class)
-ancestors = func.allocate_wealth(ancestors)
+ancestors = func.allocate_wealth(ancestors, max_offspring)
 ancestors = func.give_birth(ancestors, max_offspring, cost_class, cost_base, death_offspring, hazard_env)
 ancestors[:, 8] = ancestors[:, 2] # ancestor tag
 
@@ -62,7 +62,7 @@ for t in range(num_generation):
     # offspring becomes parents
     if t > 0:
         parents = offspring
-        parents = func.allocate_wealth(parents)
+        parents = func.allocate_wealth(parents, max_offspring)
         parents = func.give_birth(parents, max_offspring, cost_class, cost_base, death_offspring, hazard_env)
 
         # record parent data

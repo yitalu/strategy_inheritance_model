@@ -21,12 +21,13 @@ def initialize_population(population, num_class):
     return population
 
 
-def allocate_wealth(population):
+def allocate_wealth(population, max_num_offspring):
     """allocate wealth between fertility investment and bequests (based on agent strategies), and get real fertility"""
 
     # fertility allocation
     population[:, 4] = population[:, 2] * population[:, 3]
     population[:, 4] = np.round(population[:, 4]).astype(int)
+    population[:, 4] = np.clip(population[:, 4], 0, max_num_offspring)
 
     # bequests
     population[:, 5] = population[:, 2] - population[:, 4]
