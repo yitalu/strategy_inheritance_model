@@ -1,7 +1,7 @@
 # Load Data ----
 source("./analysis/load_data.R")
 d <- d1c0
-d <- d1c0[generation <= 5]
+# d <- d1c0[generation <= 5]
 
 
 
