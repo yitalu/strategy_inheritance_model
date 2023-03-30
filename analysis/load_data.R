@@ -3,7 +3,7 @@ library("data.table")
 library("rethinking")
 library("ggplot2")
 library("hrbrthemes")
-library("viridis")
+# library("viridis")
 
 
 
