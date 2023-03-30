@@ -28,7 +28,7 @@ num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 # Environmental
-hazard_env = 0.1
+hazard_env = 0.9
 cost_per_child = 1
 cost_base = 0
 income_distribution = "uniform" # uniform / normal / poisson
