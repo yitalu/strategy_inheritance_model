@@ -31,7 +31,7 @@ grid()
 
 
 # Plot Fertility vs Wealth Over Time ---------------------------------------
-# tiff(file = "./figures/fertility_vs_wealth_over_time_mutation_05.tiff", width = 2000, height = 1600, res = 300)
+tiff(file = "./figures/fertility_vs_wealth_over_time_hazard_1.tiff", width = 2000, height = 1600, res = 300)
 ggplot(data=d, aes(x=wealth, y=fertility)) +
   geom_point(color="#69b3a2", alpha=0.4, size=1, position = position_jitter(seed = 1, width = 0.2)) + 
   theme_ipsum() +
@@ -43,4 +43,4 @@ ggplot(data=d, aes(x=wealth, y=fertility)) +
   ) + 
   labs(title="Fertility vs Wealth Over Time", x ="Wealth", y = "Fertility") + 
   theme(plot.title = element_text(size = 14, hjust = 0.5))
-# dev.off()
+dev.off()

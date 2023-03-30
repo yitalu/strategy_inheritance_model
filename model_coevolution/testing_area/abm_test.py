@@ -15,21 +15,20 @@ print('started at:', current_time)
 
 # PARAMETERS
 # Basic
-num_class = 11 # just for initial
+num_class = 10 # just for initial
 # num_ancestor = 100
 num_ancestor = num_class * 11
 num_generation = 500
 # indefinite number actually because of the limit_population
 limit_population = 100000
-limit_population = 50000
+# limit_population = 50000
 max_offspring = 15
 mutation_rate = 0.005
-mutation_rate = 0.5
 num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 # Environmental
-hazard_env = 0.5
+hazard_env = 0.1
 cost_per_child = 1
 cost_base = 0
 income_distribution = "uniform" # uniform / normal / poisson
