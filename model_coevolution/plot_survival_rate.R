@@ -8,13 +8,13 @@ fertility_allocation <- seq(0, 14)
 survival_birth <- 0.95
 death_birth <- 1 - survival_birth
 
-# option 1: death rate as a linear function of fertility allocation
+# Option 1: death rate as a linear function of fertility allocation
 # death_rate <- (1 - survival_birth) + survival_birth * fertility_allocation / max_num_offspring # nolintr
 
-# option 2: death rate as a concave function of fertility allocation
+# Option 2: death rate as a concave function of fertility allocation
 death_rate <- 1 - survival_birth ^ fertility_allocation
 
-# option 3:
+# Option 3:
 s <- 0.9 - 0.005 * fertility_allocation - 0.008 * fertility_allocation^2
 
 plot(s ~ fertility_allocation)
