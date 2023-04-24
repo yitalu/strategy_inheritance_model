@@ -131,7 +131,7 @@ for t in range(num_generation):
     offspring = func.earn_income(offspring, num_class, income_distribution, income_dependency, mobility)
     offspring[:, 2] = offspring[:, 0] + offspring[:, 1]
     # offspring[:, 2] = np.clip(offspring[:, 2], 0, np.max(offspring[:, 2]))
-    offspring[offspring[:, 2] < 0, 2] = 0
+    offspring[offspring[:, 2] < 0, 2] = 0 # no negative wealth
     offspring[:, 2] = np.round(offspring[:, 2])
     # print("class", offspring[:, 2])
 

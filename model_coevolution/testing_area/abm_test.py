@@ -28,10 +28,10 @@ num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 # Environmental
-hazard_env = 0.1
+hazard_env = 0.5
 cost_per_child = 1
 cost_base = 0
-income_distribution = "uniform" # uniform / normal / poisson
+income_distribution = "poisson" # uniform / normal / poisson
 income_dependency = "society" # society / self / parent
 mobility = 3 # how variable the external income is
 
@@ -97,7 +97,7 @@ for t in range(num_generation):
     offspring[mutants, 3] = np.random.uniform(0, 1, len(mutants[0]))
 
 
-    # offsprig has random strategy
+    # offspring has random strategy
     # offspring[:, 3] = np.random.uniform(0, 1, len(offspring))
 
 
@@ -137,7 +137,7 @@ for t in range(num_generation):
     offspring = func.earn_income(offspring, num_class, income_distribution, income_dependency, mobility)
     offspring[:, 2] = offspring[:, 0] + offspring[:, 1]
     # offspring[:, 2] = np.clip(offspring[:, 2], 0, np.max(offspring[:, 2]))
-    offspring[offspring[:, 2] < 0, 2] = 0
+    offspring[offspring[:, 2] < 0, 2] = 0 # no negative wealth
     offspring[:, 2] = np.round(offspring[:, 2])
     # print("class", offspring[:, 2])
 
