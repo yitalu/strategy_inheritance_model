@@ -1,7 +1,7 @@
 # Load Data ----
 source("./analysis/load_data.R")
 d <- d1c0
-# d <- d1c0[generation <= 20]
+d <- d1c0[generation <= 50]
 
 
 
@@ -31,3 +31,4 @@ ggplot(data=d, aes(x=wealth, y=strategy)) +
   # scale_y_continuous(breaks = c(0.1, 0.5, 1)) + 
   scale_y_continuous(breaks = seq(0, 1, 0.2))
 # dev.off()
+
