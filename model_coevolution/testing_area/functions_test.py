@@ -147,26 +147,6 @@ def earn_income(offspring, num_class, income_distribution, income_dependency, mo
         elif income_dependency == "parent":
             for i in range(len(offspring[:, 1])):
                 offspring[i, 1] = np.random.poisson(lam=offspring[i, 9], size=1)
-    
-
-    # Log-Normal Income
-    elif income_distribution == "lognormal":
-
-        # income depend on society average
-        if income_dependency == "society":
-            offspring[:, 1] = np.random.normal(loc = (num_class-1)/2, scale = mobility, size=len(offspring))
-
-        # income depends on offspring inheritance
-        elif income_dependency == "self":
-            for i in range(len(offspring[:, 1])):
-                offspring[i, 1] = np.random.normal(loc = offspring[i, 0], scale = mobility, size = 1)
-
-        # income depends on parent class
-        elif income_dependency == "parent":
-            for i in range(len(offspring[:, 1])):
-                offspring[i, 1] = np.random.normal(loc = offspring[i, 9], scale = mobility, size = 1)
-
-        offspring[:, 1] = np.random.lognormal(mean=0, sigma=1, size=len(offspring))
 
 
     # no negative income
