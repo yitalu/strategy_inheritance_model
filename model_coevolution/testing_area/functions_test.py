@@ -147,6 +147,12 @@ def earn_income(offspring, num_class, income_distribution, income_dependency, mo
         elif income_dependency == "parent":
             for i in range(len(offspring[:, 1])):
                 offspring[i, 1] = np.random.poisson(lam=offspring[i, 9], size=1)
+    
+
+    # Log-Normal income
+    elif income_distribution == "lognormal":
+        offspring[:, 1] = np.random.lognormal(mean = 0, sigma = 1, size = len(offspring))
+
 
 
     # no negative income
