@@ -2,7 +2,7 @@
 source("./analysis/load_data.R")
 d <- d1c0
 # d <- d1c0[generation <= 50 & generation > 30]
-
+d <- d[generation < 50]
 
 
 # Plot Strategy vs Wealth -------------------------------------------------
