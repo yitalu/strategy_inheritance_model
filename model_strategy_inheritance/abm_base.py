@@ -4,7 +4,7 @@
 
 # IMPORT ----
 import numpy as np
-import functions_base as func
+import functions_test as func
 import time as tm
 
 start_time = tm.time()
@@ -20,22 +20,27 @@ num_class = 10 # just for initial
 num_ancestor = num_class * 11
 num_generation = 500
 # indefinite number actually because of the limit_population
-limit_population = 100000
+# limit_population = 100000
+limit_population = 50000
 max_offspring = 15
-mutation_rate = 0.005
+# mutation_rate = 0.005 # inherited strategy
+mutation_rate = 1 # random strategy
 num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 # Environmental
-hazard_env = 0.5
+hazard_env = 0.8
+cost_per_child = 1
 cost_base = 0
-income_distribution = "uniform" # uniform / normal / poisson
-income_dependency = "self" # society / self / parent
+income_distribution = "uniform" # uniform / normal / poisson / lognormal
+income_dependency = "society" # society / self / parent
 mobility = 3 # how variable the external income is
 
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
 cost_class = 0
+coarse_grained = 1
+n_grained = 100
 
 
 
@@ -95,6 +100,10 @@ for t in range(num_generation):
     offspring[mutants, 3] = np.random.uniform(0, 1, len(mutants[0]))
 
 
+    # offspring has random strategy
+    # offspring[:, 3] = np.random.uniform(0, 1, len(offspring))
+
+
     # offspring inherits bequests evenly
     bequest_even = parents[parents[:, 7] != 0, 5] // parents[parents[:, 7] != 0, 7]
     offspring[:, 0] = np.repeat(bequest_even, parents[parents[:, 7] != 0, 7].astype(int), axis=0)
@@ -140,24 +149,32 @@ for t in range(num_generation):
     offspring[:, 10] = t + 1
 
 
+    # coarse-graining sampling
+    if coarse_grained == 1:
+        if len(offspring) >= n_grained:
+            offspring = offspring[np.random.choice(len(offspring), n_grained, replace = False), :]
+
+
 # OUTPUT DATA
 column_name = 'inheritance, income, wealth, strategy, fertility investment, bequests, fertility, survived offspring, ancestor class, parent class, generation'
 
 if death_offspring == 0 and cost_class == 0:
-    np.savetxt('./data/data_d0c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/testing_area/data_d0c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
-    # np.savetxt('./data/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
-    # np.savetxt('./data/data_d1c0_h09.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    if coarse_grained == 0:
+        np.savetxt('./data/testing_area/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    elif coarse_grained == 1:
+        np.savetxt('./data/testing_area/data_coarse.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 0 and cost_class == 1:
-    np.savetxt('./data/data_d0c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/testing_area/data_d0c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 1:
-    np.savetxt('./data/data_d1c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    np.savetxt('./data/testing_area/data_d1c1.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 

@@ -39,6 +39,8 @@ mobility = 3 # how variable the external income is
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
 cost_class = 0
+coarse_grained = 1
+n_grained = 100
 
 
 
@@ -147,6 +149,12 @@ for t in range(num_generation):
     offspring[:, 10] = t + 1
 
 
+    # coarse-graining sampling
+    if coarse_grained == 1:
+        if len(offspring) >= n_grained:
+            offspring = offspring[np.random.choice(len(offspring), n_grained, replace = False), :]
+
+
 # OUTPUT DATA
 column_name = 'inheritance, income, wealth, strategy, fertility investment, bequests, fertility, survived offspring, ancestor class, parent class, generation'
 
@@ -155,7 +163,10 @@ if death_offspring == 0 and cost_class == 0:
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 1 and cost_class == 0:
-    np.savetxt('./data/testing_area/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    if coarse_grained == 0:
+        np.savetxt('./data/testing_area/data_d1c0.csv', data, delimiter=',', fmt='%.2f', header=column_name)
+    elif coarse_grained == 1:
+        np.savetxt('./data/testing_area/data_coarse.csv', data, delimiter=',', fmt='%.2f', header=column_name)
     print("death_offspring:", death_offspring)
     print("cost_class:", cost_class)
 elif death_offspring == 0 and cost_class == 1:
