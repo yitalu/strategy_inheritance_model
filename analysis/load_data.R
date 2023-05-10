@@ -11,7 +11,8 @@ library("hrbrthemes")
 # d1c0 <- fread("./data/data_d1c0.csv")
 # d1c0 <- fread("./data/testing_area/data_d1c0.csv")
 # colnames(d1c0)[1] <- "inheritance"
-d <- fread("./data/testing_area/data_coarse.csv")
+d <- fread("./data/testing_area/data_d1c0.csv")
+# d <- fread("./data/testing_area/data_coarse.csv")
 colnames(d)[1] <- "inheritance"
 
 

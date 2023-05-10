@@ -18,7 +18,7 @@ print('started at:', current_time)
 num_class = 10 # just for initial
 # num_ancestor = 100
 num_ancestor = num_class * 11
-num_generation = 50
+num_generation = 20
 num_grained = 100
 # limit_population = 100000
 limit_population = 50000
@@ -39,8 +39,8 @@ mobility = 3 # how variable the external income is
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
 cost_class = 0
-coarse_grained = 1
-transmit_horizontal = 1
+coarse_grained = 0
+transmit_horizontal = 0
 
 
 
