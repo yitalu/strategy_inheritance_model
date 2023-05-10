@@ -19,7 +19,7 @@ num_class = 10 # just for initial
 # num_ancestor = 100
 num_ancestor = num_class * 11
 num_generation = 50
-# indefinite number actually because of the limit_population
+num_grained = 100
 # limit_population = 100000
 limit_population = 50000
 max_offspring = 15
@@ -40,7 +40,7 @@ mobility = 3 # how variable the external income is
 death_offspring = 1
 cost_class = 0
 coarse_grained = 1
-n_grained = 100
+
 
 
 
@@ -151,8 +151,8 @@ for t in range(num_generation):
 
     # coarse-graining sampling
     if coarse_grained == 1:
-        if len(offspring) >= n_grained:
-            offspring = offspring[np.random.choice(len(offspring), n_grained, replace = False), :]
+        if len(offspring) >= num_grained:
+            offspring = offspring[np.random.choice(len(offspring), num_grained, replace = False), :]
 
 
 # OUTPUT DATA

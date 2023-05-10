@@ -19,28 +19,28 @@ num_class = 10 # just for initial
 # num_ancestor = 100
 num_ancestor = num_class * 11
 num_generation = 50
-# indefinite number actually because of the limit_population
+num_grained = 100
 # limit_population = 100000
 limit_population = 50000
 max_offspring = 15
-# mutation_rate = 0.005 # inherited strategy
-mutation_rate = 1 # random strategy
+mutation_rate = 0.005 # inherited strategy
+# mutation_rate = 1 # random strategy
 num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
 # Environmental
-hazard_env = 0.5
+hazard_env = 1
 cost_per_child = 1
 cost_base = 0
 income_distribution = "uniform" # uniform / normal / poisson / lognormal
-income_dependency = "society" # society / self / parent
+income_dependency = "self" # society / self / parent
 mobility = 3 # how variable the external income is
 
 # Conditional (1 for true; 0 for false)
 death_offspring = 1
 cost_class = 0
 coarse_grained = 1
-n_grained = 100
+
 
 
 
@@ -151,8 +151,8 @@ for t in range(num_generation):
 
     # coarse-graining sampling
     if coarse_grained == 1:
-        if len(offspring) >= n_grained:
-            offspring = offspring[np.random.choice(len(offspring), n_grained, replace = False), :]
+        if len(offspring) >= num_grained:
+            offspring = offspring[np.random.choice(len(offspring), num_grained, replace = False), :]
 
 
 # OUTPUT DATA
