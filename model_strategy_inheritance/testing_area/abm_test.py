@@ -142,9 +142,12 @@ for t in range(num_generation):
     # print("class", offspring[:, 2])
 
 
-    # offspring learn strategies via horizontal transmission: (1) society mean, (2) class mean
+    # offspring learn strategies via horizontal transmission: (1) class mean
     if transmit_horizontal == 1:
-        offspring[:, 3] = np.mean(offspring[:, 3])
+        print("max(offspring[:, 2])", int(max(offspring[:, 2])))
+        for i in range(int(max(offspring[:, 2]))):
+            if sum(offspring[:, 2] == i) != 0:
+                offspring[offspring[:, 2] == i, 3] = np.mean(offspring[offspring[:, 2] == i, 3])
     
     
     # record generation
