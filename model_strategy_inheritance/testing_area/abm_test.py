@@ -40,6 +40,7 @@ mobility = 3 # how variable the external income is
 death_offspring = 1
 cost_class = 0
 coarse_grained = 1
+transmit_horizontal = 1
 
 
 
@@ -97,11 +98,7 @@ for t in range(num_generation):
     offspring[:, 3] = np.repeat(parents[:, 3], parents[:, 7].astype(int), axis=0)
     draw = np.random.uniform(0, 1, len(offspring))
     mutants = np.where(draw < mutation_rate)
-    offspring[mutants, 3] = np.random.uniform(0, 1, len(mutants[0]))
-
-
-    # offspring has random strategy
-    # offspring[:, 3] = np.random.uniform(0, 1, len(offspring))
+    offspring[mutants, 3] = np.random.uniform(0, 1, len(mutants[0]))    
 
 
     # offspring inherits bequests evenly
@@ -144,6 +141,11 @@ for t in range(num_generation):
     offspring[:, 2] = np.round(offspring[:, 2])
     # print("class", offspring[:, 2])
 
+
+    # offspring learn strategies via horizontal transmission: (1) society mean, (2) class mean
+    if transmit_horizontal == 1:
+        offspring[:, 3] = np.mean(offspring[:, 3])
+    
     
     # record generation
     offspring[:, 10] = t + 1
