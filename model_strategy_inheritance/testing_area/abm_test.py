@@ -18,10 +18,10 @@ print('started at:', current_time)
 num_class = 10 # just for initial
 # num_ancestor = 100
 num_ancestor = num_class * 11
-num_generation = 20
+num_generation = 9
 num_grained = 100
-# limit_population = 100000
-limit_population = 50000
+limit_population = 100000
+# limit_population = 50000
 max_offspring = 15
 mutation_rate = 0.005 # inherited strategy
 # mutation_rate = 1 # random strategy
@@ -33,7 +33,7 @@ hazard_env = 0.5
 cost_per_child = 1
 cost_base = 0
 income_distribution = "uniform" # uniform / normal / poisson / lognormal
-income_dependency = "self" # society / self / parent
+income_dependency = "society" # society / self / parent
 mobility = 3 # how variable the external income is
 
 # Conditional (1 for true; 0 for false)
