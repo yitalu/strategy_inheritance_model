@@ -25,7 +25,7 @@ ggplot(data=d, aes(x=strategy, group = generation)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 2)) + 
   xlab("Strategy") +
   ylab("Density") + 
-  labs(title="Strategy Distribution Over Time \n (Inherited Strategy and Income Dependency)", x ="Strategy", y = "Density") +
+  labs(title="Strategy Distribution Over Time \n (Random Strategy)", x ="Strategy", y = "Density") +
   theme(plot.title = element_text(size = 14, hjust = 0.5))
 # dev.off()
 

@@ -24,7 +24,7 @@ limit_population = 100000
 # limit_population = 50000
 max_offspring = 15
 mutation_rate = 0.005 # inherited strategy
-# mutation_rate = 1 # random strategy
+mutation_rate = 1 # random strategy
 num_column = 11
 # [0] inheritance; [1] income; [2] total wealth (class); [3] strategy (fertility ratio); [4] fertility investment; [5] bequests; [6] fertility; [7] survived offspring; [8] ancestor's class; [9] parent's class; [10] generation
 
