@@ -9,7 +9,6 @@ source("./code/leslie_matrix_functions.R")
 
 
 
-
 # Parameters ----
 num_class <- 3
 generation <- 10
