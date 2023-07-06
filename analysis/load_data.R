@@ -1,4 +1,5 @@
 # Load Package ----
+library("reticulate")
 library("data.table")
 library("rethinking")
 library("ggplot2")
@@ -7,19 +8,16 @@ library("hrbrthemes")
 
 
 
+
+# Run Model ----
+use_virtualenv("./env", required = TRUE)
+py_run_file("./model_strategy_inheritance/case_egalitarian_random.py")
+
+
+
+
 # Load Data ----
-# d1c0 <- fread("./data/data_d1c0.csv")
-# d1c0 <- fread("./data/testing_area/data_d1c0.csv")
-# colnames(d1c0)[1] <- "inheritance"
-d <- fread("./data/testing_area/data_fine.csv")
-# d <- fread("./data/testing_area/data_coarse.csv")
-colnames(d)[1] <- "inheritance"
-
-
-# d1c0_h00 <- fread("./data/data_d1c0_h00.csv")
-# d1c0_h03 <- fread("./data/data_d1c0_h03.csv")
-# d1c0_h06 <- fread("./data/data_d1c0_h06.csv")
-# d1c0_h09 <- fread("./data/data_d1c0_h09.csv")
-
-# d1c1 <- fread("./data/data_d1c1.csv")
-# colnames(d1c1)[1] <- "inheritance"
+d_ER <- fread("./data/data_case_egalitarian_random.csv")
+# d_EI <- fread("./data/data_case_egalitarian_inherited.csv")
+# d_MR <- fread("./data/data_case_market_random.csv")
+# d_MI <- fread("./data/data_case_market_inherited.csv")
