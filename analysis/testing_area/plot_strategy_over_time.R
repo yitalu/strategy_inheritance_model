@@ -1,6 +1,6 @@
 # Load Data ----
 source("./analysis/load_data.R")
-d <- d1c0
+d <- d_EI
 # d <- d1c0[generation == max(d1c0$generation), ]
 
 

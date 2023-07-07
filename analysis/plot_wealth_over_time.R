@@ -1,7 +1,6 @@
 # Load Data ----
 source("./analysis/load_data.R")
-d <- d1c0
-# d <- d1c1
+d <- d_ER
 
 num_generation <- max(d$generation) + 1
 
@@ -25,7 +24,7 @@ for (g in 0:max(d$generation)) {
 plot(NULL, xlab = "Wealth", ylab = "Density", xlim = c(0, max(d$wealth)), ylim = c(0, 0.4), main = "Wealth Distribution over Time")
 for (g in 0:max(d$generation)) {
   lines(density(d[generation == g, wealth]))
-  Sys.sleep(0.1)
+  Sys.sleep(1)
 }
 # dev.off()
 
