@@ -1,7 +1,6 @@
 # Load Data ----
 source("./analysis/load_data.R")
-d <- d1c0
-# d <- d1c1
+d <- d_MI
 
 
 
